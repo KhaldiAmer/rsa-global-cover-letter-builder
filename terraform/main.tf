@@ -7,7 +7,7 @@ terraform {
   }
   
   cloud {
-    organization = var.terraform_organization
+    organization = "khaldi-ameur"
     
     workspaces {
       name = "rsa-global-cover-letter-builder"
