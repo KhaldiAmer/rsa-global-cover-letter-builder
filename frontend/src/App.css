@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.App {
+  text-align: left;
+}
+
+.prose {
+  color: #374151;
+  max-width: none;
+}
+
+.prose p {
+  margin-bottom: 1em;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: #111827;
+  font-weight: 600;
+}
+
+.prose h1 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose h2 {
+  font-size: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.prose h3 {
+  font-size: 1.125em;
+  margin-bottom: 0.5em;
+}
