@@ -9,7 +9,7 @@ output "backend_url" {
 }
 
 output "database_connection_string" {
-  value = render_postgres.main_db.database_url
+  value = render_postgres.main_db.external_connection_string
   sensitive = true
   description = "Database connection string"
 }
