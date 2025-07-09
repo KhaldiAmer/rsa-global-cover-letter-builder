@@ -58,7 +58,7 @@ Before running this project, ensure you have:
 ### 1. Clone and Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/rsa-global-cover-letter-builder.git
+git clone https://github.com/KhaldiAmer/rsa-global-cover-letter-builder.git
 cd rsa-global-cover-letter-builder
 cp .env.example .env
 ```
