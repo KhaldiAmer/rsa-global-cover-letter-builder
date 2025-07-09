@@ -34,60 +34,43 @@ resource "render_web_service" "backend" {
   plan = "free"
   region = "oregon"
   
-  runtime = "docker"
-  
-  repo = {
-    url = "https://github.com/${var.github_username}/${var.repo_name}"
-    branch = "main"
-    auto_deploy = true
-    build_filter = {
-      paths = ["backend/**"]
+  runtime_source = {
+    docker = {
+      branch = "main"
+      repo_url = "https://github.com/${var.github_username}/${var.repo_name}"
+      context = "./backend"
+      dockerfile_path = "./Dockerfile"
     }
   }
   
-  docker = {
-    context = "./backend"
-    dockerfile_path = "./Dockerfile"
-  }
-  
   env_vars = {
-    APP_NAME = var.app_name
-    APP_VERSION = var.app_version
-    DEBUG = var.debug
-    LOG_LEVEL = var.log_level
-    DATABASE_URL = render_postgres.main_db.connection_info.external_connection_string
-    GEMINI_API_KEY = var.gemini_api_key
-    TEMPORAL_API_KEY = var.temporal_api_key
-    TEMPORAL_ADDRESS = var.temporal_address
-    TEMPORAL_NAMESPACE = var.temporal_namespace
+    APP_NAME = { value = var.app_name }
+    APP_VERSION = { value = var.app_version }
+    DEBUG = { value = var.debug }
+    LOG_LEVEL = { value = var.log_level }
+    DATABASE_URL = { value = render_postgres.main_db.connection_info.external_connection_string }
+    GEMINI_API_KEY = { value = var.gemini_api_key }
+    TEMPORAL_API_KEY = { value = var.temporal_api_key }
+    TEMPORAL_ADDRESS = { value = var.temporal_address }
+    TEMPORAL_NAMESPACE = { value = var.temporal_namespace }
   }
   
-  health_check = {
-    path = "/api/health"
-  }
+  health_check_path = "/api/health"
 }
 
 # Frontend Static Site
 resource "render_static_site" "frontend" {
   name = "${var.app_name}-frontend"
-  plan = "free"
-  region = "oregon"
-  
-  repo = {
-    url = "https://github.com/${var.github_username}/${var.repo_name}"
-    branch = "main"
-    auto_deploy = true
-    build_filter = {
-      paths = ["frontend/**"]
-    }
-  }
-  
+  repo_url = "https://github.com/${var.github_username}/${var.repo_name}"
+  branch = "main"
   build_command = "cd frontend && npm ci && npm run build"
   publish_path = "frontend/build"
+  auto_deploy = true
+  root_directory = "."
   
   env_vars = {
-    REACT_APP_API_URL = render_web_service.backend.url
-    NODE_ENV = "production"
+    REACT_APP_API_URL = { value = render_web_service.backend.url }
+    NODE_ENV = { value = "production" }
   }
 }
 
@@ -97,30 +80,24 @@ resource "render_private_service" "temporal_worker" {
   plan = "free"
   region = "oregon"
   
-  runtime = "docker"
-  
-  repo = {
-    url = "https://github.com/${var.github_username}/${var.repo_name}"
-    branch = "main"
-    auto_deploy = true
-  }
-  
-  docker = {
-    context = "./backend"
-    dockerfile_path = "./Dockerfile.worker"
-    command = "python -m app.worker"
+  runtime_source = {
+    docker = {
+      branch = "main"
+      repo_url = "https://github.com/${var.github_username}/${var.repo_name}"
+      context = "./backend"
+      dockerfile_path = "./Dockerfile.worker"
+    }
   }
   
   env_vars = {
-    APP_NAME = var.app_name
-    LOG_LEVEL = var.log_level
-    DATABASE_URL = render_postgres.main_db.connection_info.external_connection_string
-    TEMPORAL_API_KEY = var.temporal_api_key
-    TEMPORAL_ADDRESS = var.temporal_address
-    TEMPORAL_NAMESPACE = var.temporal_namespace
-    GEMINI_API_KEY = var.gemini_api_key
+    APP_NAME = { value = var.app_name }
+    LOG_LEVEL = { value = var.log_level }
+    DATABASE_URL = { value = render_postgres.main_db.connection_info.external_connection_string }
+    TEMPORAL_API_KEY = { value = var.temporal_api_key }
+    TEMPORAL_ADDRESS = { value = var.temporal_address }
+    TEMPORAL_NAMESPACE = { value = var.temporal_namespace }
+    GEMINI_API_KEY = { value = var.gemini_api_key }
   }
   
-  # Add startup command
   start_command = "python -m app.worker"
 }
