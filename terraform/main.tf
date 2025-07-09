@@ -84,8 +84,8 @@ resource "render_private_service" "temporal_worker" {
     docker = {
       branch = "main"
       repo_url = "https://github.com/${var.github_username}/${var.repo_name}"
-      context = "./backend"
-      dockerfile_path = "./Dockerfile.worker"
+      context = "."
+      dockerfile_path = "./backend/Dockerfile.worker"
     }
   }
   
