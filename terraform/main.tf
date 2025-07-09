@@ -55,7 +55,7 @@ resource "render_web_service" "backend" {
     APP_VERSION = var.app_version
     DEBUG = var.debug
     LOG_LEVEL = var.log_level
-    DATABASE_URL = render_postgres.main_db.connection_string
+    DATABASE_URL = render_postgres.main_db.database_url
     GEMINI_API_KEY = var.gemini_api_key
     TEMPORAL_API_KEY = var.temporal_api_key
     TEMPORAL_ADDRESS = var.temporal_address
@@ -114,7 +114,7 @@ resource "render_private_service" "temporal_worker" {
   env_vars = {
     APP_NAME = var.app_name
     LOG_LEVEL = var.log_level
-    DATABASE_URL = render_postgres.main_db.connection_string
+    DATABASE_URL = render_postgres.main_db.database_url
     TEMPORAL_API_KEY = var.temporal_api_key
     TEMPORAL_ADDRESS = var.temporal_address
     TEMPORAL_NAMESPACE = var.temporal_namespace
