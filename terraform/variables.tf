@@ -50,10 +50,7 @@ variable "render_api_key" {
   description = "Render API key"
 }
 
-variable "render_email" {
-  type = string
-  description = "Render account email"
-}
+// Removed render_email variable - not needed for provider configuration
 
 variable "terraform_organization" {
   type = string

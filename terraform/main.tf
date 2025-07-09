@@ -17,7 +17,7 @@ terraform {
 
 provider "render" {
   api_key = var.render_api_key
-  owner_email = var.render_email
+  owner_id = "tea-d1mlv72li9vc73chfh6g"
 }
 
 # PostgreSQL Database
