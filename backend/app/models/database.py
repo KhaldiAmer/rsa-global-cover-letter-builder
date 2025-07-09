@@ -26,9 +26,29 @@ class Database:
                     f"Attempting to connect to database at {parsed_url.hostname}:{parsed_url.port}"
                 )
 
-                # For Render PostgreSQL, try direct connection first
-                if "render.com" in parsed_url.hostname:
-                    print("Detected Render PostgreSQL, trying direct connection...")
+                # Check if this is an internal Render connection (no SSL needed)
+                is_internal_render = (
+                    "render.com" in parsed_url.hostname and "internal" in DATABASE_URL
+                )
+
+                if is_internal_render:
+                    print(
+                        "Detected internal Render PostgreSQL connection (no SSL required)"
+                    )
+                    # For internal connections, try direct connection first
+                    try:
+                        self.conn = psycopg2.connect(DATABASE_URL)
+                        self.conn.set_session(autocommit=False)
+                        print(f"Successfully connected to internal Render PostgreSQL")
+                        return
+                    except psycopg2.OperationalError as direct_error:
+                        print(f"Direct internal connection failed: {direct_error}")
+
+                # For external Render PostgreSQL, try direct connection first
+                elif "render.com" in parsed_url.hostname:
+                    print(
+                        "Detected external Render PostgreSQL, trying direct connection..."
+                    )
                     try:
                         # Try connecting directly with the URL first
                         self.conn = psycopg2.connect(DATABASE_URL)
@@ -50,9 +70,9 @@ class Database:
                     "password": parsed_url.password,
                 }
 
-                # Add SSL parameters for Render PostgreSQL
-                if "render.com" in parsed_url.hostname:
-                    print("Configuring SSL parameters for Render...")
+                # Add SSL parameters for external Render PostgreSQL only
+                if "render.com" in parsed_url.hostname and not is_internal_render:
+                    print("Configuring SSL parameters for external Render...")
                     db_params.update(
                         {
                             "sslmode": "require",

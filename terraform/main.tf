@@ -48,7 +48,7 @@ resource "render_web_service" "backend" {
     APP_VERSION = { value = var.app_version }
     DEBUG = { value = var.debug }
     LOG_LEVEL = { value = var.log_level }
-    DATABASE_URL = { value = render_postgres.main_db.connection_info.external_connection_string }
+    DATABASE_URL = { value = render_postgres.main_db.connection_info.internal_connection_string }
     GEMINI_API_KEY = { value = var.gemini_api_key }
     TEMPORAL_API_KEY = { value = var.temporal_api_key }
     TEMPORAL_ADDRESS = { value = var.temporal_address }
@@ -92,7 +92,7 @@ resource "render_private_service" "temporal_worker" {
   env_vars = {
     APP_NAME = { value = var.app_name }
     LOG_LEVEL = { value = var.log_level }
-    DATABASE_URL = { value = render_postgres.main_db.connection_info.external_connection_string }
+    DATABASE_URL = { value = render_postgres.main_db.connection_info.internal_connection_string }
     TEMPORAL_API_KEY = { value = var.temporal_api_key }
     TEMPORAL_ADDRESS = { value = var.temporal_address }
     TEMPORAL_NAMESPACE = { value = var.temporal_namespace }
