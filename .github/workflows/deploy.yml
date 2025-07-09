@@ -108,7 +108,6 @@ jobs:
         TF_VAR_temporal_address: ${{ secrets.TEMPORAL_ADDRESS }}
         TF_VAR_temporal_namespace: ${{ secrets.TEMPORAL_NAMESPACE }}
         TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
-        TF_VAR_render_email: ${{ secrets.RENDER_EMAIL }}
         TF_VAR_terraform_organization: ${{ secrets.TERRAFORM_ORGANIZATION }}
         TF_VAR_github_username: ${{ github.repository_owner }}
         TF_VAR_repo_name: ${{ github.event.repository.name }}
@@ -125,7 +124,6 @@ jobs:
         TF_VAR_temporal_address: ${{ secrets.TEMPORAL_ADDRESS }}
         TF_VAR_temporal_namespace: ${{ secrets.TEMPORAL_NAMESPACE }}
         TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
-        TF_VAR_render_email: ${{ secrets.RENDER_EMAIL }}
         TF_VAR_terraform_organization: ${{ secrets.TERRAFORM_ORGANIZATION }}
         TF_VAR_github_username: ${{ github.repository_owner }}
         TF_VAR_repo_name: ${{ github.event.repository.name }}
