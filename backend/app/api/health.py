@@ -17,7 +17,10 @@ async def health_check():
 async def temporal_health(request: Request):
     """Check Temporal connection health"""
     try:
-        client = request.app.state.temporal_client
+        client = getattr(request.app.state, 'temporal_client', None)
+        if client is None:
+            return {"status": "unhealthy", "temporal": "disconnected", "error": "No Temporal client configured"}
+        
         # Simple connection test
         await client.list_workflows()
         return {"status": "healthy", "temporal": "connected"}

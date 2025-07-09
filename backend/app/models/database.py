@@ -21,22 +21,26 @@ class Database:
 db = Database()
 
 def init_db():
-    db.connect()
-    with db.conn.cursor() as cur:
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS applications (
-                id VARCHAR PRIMARY KEY,
-                company VARCHAR NOT NULL,
-                role VARCHAR NOT NULL,
-                job_description TEXT NOT NULL,
-                resume TEXT NOT NULL,
-                user_email VARCHAR NOT NULL,
-                deadline_duration INTERVAL NOT NULL,
-                created_at TIMESTAMP DEFAULT NOW(),
-                status VARCHAR DEFAULT 'SUBMITTED'
-            )
-        """)
-        db.conn.commit()
+    try:
+        db.connect()
+        with db.conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS applications (
+                    id VARCHAR PRIMARY KEY,
+                    company VARCHAR NOT NULL,
+                    role VARCHAR NOT NULL,
+                    job_description TEXT NOT NULL,
+                    resume TEXT NOT NULL,
+                    user_email VARCHAR NOT NULL,
+                    deadline_duration INTERVAL NOT NULL,
+                    created_at TIMESTAMP DEFAULT NOW(),
+                    status VARCHAR DEFAULT 'SUBMITTED'
+                )
+            """)
+            db.conn.commit()
+    except Exception as e:
+        print(f"Database initialization failed: {e}")
+        raise
 
 def get_db():
     return db

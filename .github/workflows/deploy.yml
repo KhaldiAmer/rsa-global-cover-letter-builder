@@ -132,8 +132,9 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: |
         cd terraform
-        echo "FRONTEND_URL=$(terraform output -raw frontend_url)" >> $GITHUB_ENV
-        echo "BACKEND_URL=$(terraform output -raw backend_url)" >> $GITHUB_ENV
+        echo "FRONTEND_URL=$(terraform output -raw frontend_url 2>/dev/null || echo 'https://rsa-global-cover-letter-builder-frontend.onrender.com')" >> $GITHUB_ENV
+        echo "BACKEND_URL=$(terraform output -raw backend_url 2>/dev/null || echo 'https://rsa-global-cover-letter-builder-backend.onrender.com')" >> $GITHUB_ENV
+      continue-on-error: true
     
     - name: Wait for deployment
       if: github.ref == 'refs/heads/main'
