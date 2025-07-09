@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   getApplication,
@@ -46,15 +46,7 @@ export const ApplicationDetail: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [copySuccess, setCopySuccess] = useState(false);
 
-  useEffect(() => {
-    if (id) {
-      loadApplication();
-      const interval = setInterval(loadApplication, 5000); // Poll every 5 seconds
-      return () => clearInterval(interval);
-    }
-  }, [id]);
-
-  const loadApplication = async () => {
+  const loadApplication = useCallback(async () => {
     if (!id) return;
 
     try {
@@ -74,7 +66,15 @@ export const ApplicationDetail: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, coverLetter]);
+
+  useEffect(() => {
+    if (id) {
+      loadApplication();
+      const interval = setInterval(loadApplication, 5000); // Poll every 5 seconds
+      return () => clearInterval(interval);
+    }
+  }, [id, loadApplication]);
 
   const handleStatusUpdate = async (newStatus: string) => {
     if (!id) return;

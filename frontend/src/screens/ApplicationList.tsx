@@ -112,25 +112,7 @@ export const ApplicationList: React.FC = () => {
     </div>
   );
 
-  const EmptyState = () => (
-    <div className="text-center py-16 bg-white rounded-lg shadow-md">
-      <div className="text-6xl mb-4">🚀</div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">
-        Ready to start your job search?
-      </h3>
-      <p className="text-gray-600 mb-6 max-w-md mx-auto">
-        Track your applications with automated workflows, AI-generated cover
-        letters, and smart deadline reminders.
-      </p>
-      <Link
-        to="/applications/new"
-        className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
-      >
-        <span className="text-lg mr-2">+</span>
-        Add Your First Application
-      </Link>
-    </div>
-  );
+  // Removed unused EmptyState component - using inline JSX instead
 
   const ErrorState = () => (
     <div className="text-center py-16 bg-white rounded-lg shadow-md border-2 border-red-100">
@@ -148,22 +130,7 @@ export const ApplicationList: React.FC = () => {
     </div>
   );
 
-  const getApplicationStats = () => {
-    const stats = applications.reduce((acc, app) => {
-      acc[app.status] = (acc[app.status] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    return {
-      total: applications.length,
-      submitted: stats.SUBMITTED || 0,
-      interview: stats.INTERVIEW || 0,
-      offer: stats.OFFER || 0,
-      rejected: stats.REJECTED || 0,
-    };
-  };
-
-  const stats = getApplicationStats();
+  // Removed unused getApplicationStats function - statistics are calculated inline
 
   if (loading) {
     return (
