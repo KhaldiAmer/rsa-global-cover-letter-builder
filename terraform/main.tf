@@ -38,8 +38,8 @@ resource "render_web_service" "backend" {
     docker = {
       branch = "main"
       repo_url = "https://github.com/${var.github_username}/${var.repo_name}"
-      context = "./backend"
-      dockerfile_path = "Dockerfile"
+      context = "."
+      dockerfile_path = "./backend/Dockerfile"
     }
   }
   
