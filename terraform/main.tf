@@ -37,7 +37,7 @@ resource "render_web_service" "backend" {
   runtime_source = {
     docker = {
       branch = "main"
-      repo_url = "https://github.com/${var.github_username}/${var.repo_name}"
+      repo_url = "https://github.com/${var.github_username}/${var.repo_name}.git"
       context = "./backend"
       dockerfile_path = "./Dockerfile"
     }
@@ -61,7 +61,7 @@ resource "render_web_service" "backend" {
 # Frontend Static Site
 resource "render_static_site" "frontend" {
   name = "${var.app_name}-frontend"
-  repo_url = "https://github.com/${var.github_username}/${var.repo_name}"
+  repo_url = "https://github.com/${var.github_username}/${var.repo_name}.git"
   branch = "main"
   build_command = "cd frontend && npm ci && npm run build"
   publish_path = "frontend/build"
@@ -83,7 +83,7 @@ resource "render_private_service" "temporal_worker" {
   runtime_source = {
     docker = {
       branch = "main"
-      repo_url = "https://github.com/${var.github_username}/${var.repo_name}"
+      repo_url = "https://github.com/${var.github_username}/${var.repo_name}.git"
       context = "./backend"
       dockerfile_path = "./Dockerfile.worker"
     }
