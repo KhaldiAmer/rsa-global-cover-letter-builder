@@ -17,7 +17,7 @@ variable "debug" {
 
 variable "log_level" {
   type = string
-  default = "info"
+  default = "INFO"
   description = "Log level"
 }
 
