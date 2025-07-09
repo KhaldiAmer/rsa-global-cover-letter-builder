@@ -31,7 +31,7 @@ resource "render_postgres" "main_db" {
 # Backend Web Service
 resource "render_web_service" "backend" {
   name = "${var.app_name}-backend"
-  plan = "free"
+  plan = "starter"
   region = "oregon"
   
   runtime_source = {
@@ -77,7 +77,7 @@ resource "render_static_site" "frontend" {
 # Temporal Worker Service
 resource "render_private_service" "temporal_worker" {
   name = "${var.app_name}-worker"
-  plan = "free"
+  plan = "starter"
   region = "oregon"
   
   runtime_source = {
