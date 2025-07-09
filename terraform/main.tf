@@ -25,15 +25,14 @@ resource "render_postgres" "main_db" {
   name = "${var.app_name}-db"
   plan = "free"
   version = "15"
-  
-  suspend_on_idle = true
-  high_availability = false
+  region = "oregon"
 }
 
 # Backend Web Service
 resource "render_web_service" "backend" {
   name = "${var.app_name}-backend"
   plan = "free"
+  region = "oregon"
   
   runtime = "docker"
   
@@ -72,6 +71,7 @@ resource "render_web_service" "backend" {
 resource "render_static_site" "frontend" {
   name = "${var.app_name}-frontend"
   plan = "free"
+  region = "oregon"
   
   repo = {
     url = "https://github.com/${var.github_username}/${var.repo_name}"
@@ -95,6 +95,7 @@ resource "render_static_site" "frontend" {
 resource "render_private_service" "temporal_worker" {
   name = "${var.app_name}-worker"
   plan = "free"
+  region = "oregon"
   
   runtime = "docker"
   
