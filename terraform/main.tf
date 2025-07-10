@@ -75,10 +75,12 @@ resource "render_static_site" "frontend" {
 }
 
 # Temporal Worker Service
-resource "render_private_service" "temporal_worker" {
+resource "render_background_worker" "temporal_worker" {
   name = "${var.app_name}-worker"
   plan = "starter"
   region = "oregon"
+  
+  start_command = "python -m app.worker"
   
   runtime_source = {
     docker = {
@@ -99,5 +101,5 @@ resource "render_private_service" "temporal_worker" {
     GEMINI_API_KEY = { value = var.gemini_api_key }
   }
   
-  start_command = "python -m app.worker"
+  num_instances = 1
 }
