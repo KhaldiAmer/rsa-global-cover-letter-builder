@@ -18,7 +18,7 @@ output "deployment_info" {
   value = {
     frontend_service = render_static_site.frontend.name
     backend_service = render_web_service.backend.name
-    worker_service = render_private_service.temporal_worker.name
+    worker_service = render_background_worker.temporal_worker.name
     database_service = render_postgres.main_db.name
   }
   description = "Deployment service names"
